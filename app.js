@@ -24,6 +24,12 @@ router
     ctx.response.status = 200
     return next()
   })
+  .put('/product/:productID', async (ctx, next) => {
+    ctx.response.body = await
+    Product.findOneAndUpdate({ productID: ctx.params.productID }, ctx.request.body).exec()
+    ctx.response.status = 200
+    return next()
+  })
 
 app.use(cors())
 app.use(bodyParser())
