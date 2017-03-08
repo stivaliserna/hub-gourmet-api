@@ -1,0 +1,26 @@
+{
+  "name": "hub-gourmet-api",
+  "version": "1.0.0",
+  "description": "Hub Gourmet application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stivaliserna/hub-gourmet-api.git"
+  },
+  "author": "Stivali Serna",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stivaliserna/hub-gourmet-api/issues"
+  },
+  "homepage": "https://github.com/stivaliserna/hub-gourmet-api#readme",
+  "dependencies": {
+    "koa": "^2.0.1",
+    "koa-bodyparser": "^4.1.0",
+    "koa-router": "^7.0.1",
+    "koa2-cors": "^2.0.3",
+    "mongoose": "^4.8.6"
+  }
+}
