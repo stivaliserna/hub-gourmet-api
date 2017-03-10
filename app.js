@@ -6,7 +6,7 @@ const cors = require('koa2-cors')
 
 const Product = require('./models/product.model')
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/hub'
 
 const app = new Koa()
