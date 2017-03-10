@@ -7,7 +7,7 @@ const cors = require('koa2-cors')
 const Product = require('./models/product.model')
 
 const PORT = 3001
-const DB_URI = 'mongodb://localhost:27017/hub'
+const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/hub'
 
 const app = new Koa()
 const router = new Router()
@@ -24,9 +24,13 @@ router
     ctx.response.status = 200
     return next()
   })
-  .put('/product/:productID', async (ctx, next) => {
+  .put('/products/:productID', async (ctx, next) => {
     ctx.response.body = await
-    Product.findOneAndUpdate({ productID: ctx.params.productID }, ctx.request.body).exec()
+    Product.findOneAndUpdate(
+      { productID: ctx.params.productID },
+      ctx.request.body,
+      { new: true }
+    ).exec()
     ctx.response.status = 200
     return next()
   })
