@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const cors = require('koa2-cors')
 
 const Product = require('./models/product.model')
+const Order = require('./models/order.model')
 
 const PORT = process.env.PORT || 3001
 const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/hub'
@@ -31,6 +32,14 @@ router
       ctx.request.body,
       { new: true }
     ).exec()
+    ctx.response.status = 200
+    return next()
+  })
+  .get('/orders', async (ctx, next) => {
+    ctx.response.body = await Order
+    .find()
+    .populate('items')
+    .exec()
     ctx.response.status = 200
     return next()
   })
