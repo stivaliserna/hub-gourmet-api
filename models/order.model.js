@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
-const Product = mongoose.model('Product')
 
 const OrderSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -11,14 +10,9 @@ const OrderSchema = new mongoose.Schema({
   telephone: { type: String, required: true },
   items: [{
     price: { type: Number, required: 'true' },
-    quantity: { type: Number, required: 'true' }
+    quantity: { type: Number, required: 'true' },
+    product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' }
   }]
 }, {collection: 'orders'})
-
-OrderSchema.virtual('items.product', {
-  ref: 'Product',
-  localField: 'product',
-  foreignField: 'productID'
-})
 
 module.exports = mongoose.model('Order', OrderSchema)
