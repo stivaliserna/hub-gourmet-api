@@ -25,10 +25,10 @@ router
     ctx.response.status = 200
     return next()
   })
-  .put('/products/:productID', async (ctx, next) => {
+  .put('/products/:_id', async (ctx, next) => {
     ctx.response.body = await
     Product.findOneAndUpdate(
-      { productID: ctx.params.productID },
+      { _id: ctx.params._id },
       ctx.request.body,
       { new: true }
     ).exec()
@@ -38,8 +38,14 @@ router
   .get('/orders', async (ctx, next) => {
     ctx.response.body = await Order
     .find()
-    .populate('items')
+    .populate('items.product')
     .exec()
+    ctx.response.status = 200
+    return next()
+  })
+  .post('/orders', async (ctx, next) => {
+    const newOrder = new Order(ctx.request.body)
+    ctx.response.body = await newOrder.save()
     ctx.response.status = 200
     return next()
   })
