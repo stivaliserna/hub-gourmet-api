@@ -49,6 +49,12 @@ router
     ctx.response.status = 200
     return next()
   })
+  .get('/orders/:_id', async (ctx, next) => {
+    ctx.response.body = await
+    Order.find({ _id: ctx.params._id}, ctx.request.body).exec()
+    ctx.response.status = 200
+    return next()
+  })
 
 app.use(cors())
 app.use(bodyParser())
