@@ -43,15 +43,18 @@ router
     ctx.response.status = 200
     return next()
   })
+  .get('/orders/:_id', async (ctx, next) => {
+    let results = await Order
+      .find({ _id: ctx.params._id})
+      .populate('items.product')
+      .exec()
+    ctx.response.body = results[0] ? results[0] : null
+    ctx.response.status = results[0] ? 200 : 404
+    return next()
+  })
   .post('/orders', async (ctx, next) => {
     const newOrder = new Order(ctx.request.body)
     ctx.response.body = await newOrder.save()
-    ctx.response.status = 200
-    return next()
-  })
-  .get('/orders/:_id', async (ctx, next) => {
-    ctx.response.body = await
-    Order.find({ _id: ctx.params._id}, ctx.request.body).exec()
     ctx.response.status = 200
     return next()
   })
