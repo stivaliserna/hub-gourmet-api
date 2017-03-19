@@ -3,15 +3,19 @@ const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
 const mongoose = require('mongoose')
 const cors = require('koa2-cors')
+const jwt = require('koa-jwt')
 
 const Product = require('./models/product.model')
 const Order = require('./models/order.model')
 
 const PORT = process.env.PORT || 3001
 const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/hub'
+const JWT_SECRET = process.env.JWT_SECRET
 
 const app = new Koa()
+
 const router = new Router()
+const requireAuth = jwt({ secret: JWT_SECRET })
 
 router
   .get('/products', async (ctx, next) => {
@@ -19,15 +23,14 @@ router
     ctx.response.status = 200
     return next()
   })
-  .post('/products', async (ctx, next) => {
+  .post('/products', requireAuth, async (ctx, next) => {
     const newProduct = new Product(ctx.request.body)
     ctx.response.body = await newProduct.save()
     ctx.response.status = 200
     return next()
   })
-  .put('/products/:_id', async (ctx, next) => {
-    ctx.response.body = await
-    Product.findOneAndUpdate(
+  .put('/products/:_id', requireAuth, async (ctx, next) => {
+    ctx.response.body = await Product.findOneAndUpdate(
       { _id: ctx.params._id },
       ctx.request.body,
       { new: true }
