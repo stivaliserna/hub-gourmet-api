@@ -61,9 +61,18 @@ router
     ctx.response.status = 200
     return next()
   })
+  .put('/orders/:_id', requireAuth, async(ctx, next) => {
+    ctx.response.body = await Order.findOneAndUpdate(
+      { _id: ctx.params._id},
+      ctx.request.body,
+      { new: true }
+    ).exec()
+    ctx.response.status = 200
+    return next()
+  })
 
 app.use(cors())
-app.use(bodyParser())
+app.use(bodyParser({ jsonLimit: '2mb' }))
 app.use(router.routes())
 
 mongoose.Promise = global.Promise

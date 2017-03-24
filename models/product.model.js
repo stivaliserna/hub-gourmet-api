@@ -8,7 +8,8 @@ const ProductSchema = new mongoose.Schema({
   productUnit: { type: String, required: true },
   productUnitQuantity: { type: Number, required: true },
   price: { type: Number, required: true },
-  base64Img: String
+  base64Img: String,
+  archived: { type: Boolean, default: false }
 }, { collection: 'products' })
 
 module.exports = mongoose.model('Product', ProductSchema)
