@@ -1,0 +1,3 @@
+[submodule "client"]
+	path = hub-gourmet-client
+	url = https://github.com/stivaliserna/hub-gourmet-client.git
