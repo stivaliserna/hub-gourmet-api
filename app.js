@@ -19,8 +19,16 @@ const requireAuth = jwt({ secret: JWT_SECRET })
 
 router
   .get('/products', async (ctx, next) => {
-    ctx.response.body = await Product.find().exec()
+    let { limit = 20, skip = 0, archived = false } = ctx.request.query
+
+    ctx.response.body = await Product
+      .find({ archived: archived })
+      .skip(Number.parseInt(skip))
+      .limit(Number.parseInt(limit))
+      .exec()
+
     ctx.response.status = 200
+
     return next()
   })
   .post('/products', requireAuth, async (ctx, next) => {
